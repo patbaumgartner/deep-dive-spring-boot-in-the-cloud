@@ -1,0 +1,13 @@
+api = "0.10"
+
+[buildpack]
+id = "patbaumgartner/aot-cache"
+name = "AOT Cache Buildpack"
+version = "0.0.1"
+
+[[targets]]
+os = "linux"
+arch = "amd64"
+
+[[stacks]]
+id = "io.buildpacks.stacks.noble"
