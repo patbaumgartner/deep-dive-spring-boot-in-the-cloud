@@ -1,0 +1,25 @@
+api = "0.10"
+
+[buildpack]
+id = "patbaumgartner/buildpacks-aot-cache"
+name = "Patbaumgartner Buildpack for AOT Caching"
+version = "0.1.0"
+keywords = ["java", "spring-boot", "aot", "performance", "caching"]
+description = "A Cloud Native Buildpack that generates and caches AOT compilation for Spring Boot applications using Java 25+"
+
+[[buildpack.licenses]]
+type = "Apache-2.0"
+
+[[stacks]]
+id = "*"
+
+[[targets]]
+arch = "amd64"
+os = "linux"
+
+[[targets]]
+arch = "arm64"
+os = "linux"
+
+[metadata]
+include-files = ["buildpack.toml", "bin/detect", "bin/build"]

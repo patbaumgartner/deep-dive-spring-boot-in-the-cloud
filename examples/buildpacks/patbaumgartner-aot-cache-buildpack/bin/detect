@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+# AOT Cache Buildpack - Detect Phase
+set -eo pipefail
+
+# Check if explicitly disabled
+if [[ "${BP_AOT_CACHING:-auto}" == "false" ]]; then
+  exit 100
+fi
+
+# CNB_APP_DIR may be empty during detect; default to current directory
+APP_DIR="${CNB_APP_DIR:-.}"
+
+# Check for Spring Boot fat JAR (exploded)
+if [[ ! -d "${APP_DIR}/BOOT-INF" ]]; then
+  exit 100
+fi
+
+: "${CNB_BUILD_PLAN_PATH:?CNB_BUILD_PLAN_PATH not set}"
+mkdir -p "$(dirname "$CNB_BUILD_PLAN_PATH")"
+
+cat >"$CNB_BUILD_PLAN_PATH" <<EOL
+[[requires]]
+name = "jre"
+  [requires.metadata]
+  build = true
+  launch = true
+EOL
+
+exit 0
