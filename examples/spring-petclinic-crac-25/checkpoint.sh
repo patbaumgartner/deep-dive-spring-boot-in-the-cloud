@@ -4,11 +4,11 @@ set -e
 source "$HOME/.sdkman/bin/sdkman-init.sh"
 sed -i s"/sdkman_auto_answer=false/sdkman_auto_answer=true/" ~/.sdkman/etc/config
 
-sdk default java 25.0.1-zulu
+sdk default java 25.0.2-zulu
 
 case $(uname -m) in
-    arm64)   url="https://cdn.azul.com/zulu/bin/zulu25.30.19-ca-crac-jdk25.0.1-linux_aarch64.tar.gz" ;;
-    *)       url="https://cdn.azul.com/zulu/bin/zulu25.30.19-ca-crac-jdk25.0.1-linux_x64.tar.gz" ;;
+    arm64)   url="https://cdn.azul.com/zulu/bin/zulu25.32.21-ca-crac-jdk25.0.2-linux_aarch64.tar.gz" ;;
+    *)       url="https://cdn.azul.com/zulu/bin/zulu25.32.21-ca-crac-jdk25.0.2-linux_x64.tar.gz" ;;
 esac
 
 echo "Using CRaC enabled JDK $url"

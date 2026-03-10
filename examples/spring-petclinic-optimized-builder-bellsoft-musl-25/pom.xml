@@ -5,8 +5,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>4.0.0</version>
-    <relativePath></relativePath>
+    <version>4.0.3</version>
   </parent>
 
   <groupId>org.springframework.samples</groupId>
@@ -16,27 +15,25 @@
   <name>petclinic</name>
 
   <properties>
-
     <!-- Generic properties -->
     <java.version>25</java.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <!-- Important for reproducible builds. Update using e.g. ./mvnw versions:set -DnewVersion=... -->
-    <project.build.outputTimestamp>2025-11-22T16:15:42Z</project.build.outputTimestamp>
+    <project.build.outputTimestamp>2024-11-28T14:37:52Z</project.build.outputTimestamp>
 
     <!-- Web dependencies -->
-    <webjars-locator.version>1.1.2</webjars-locator.version>
+    <webjars-locator.version>1.1.3</webjars-locator.version>
     <webjars-bootstrap.version>5.3.8</webjars-bootstrap.version>
     <webjars-font-awesome.version>4.7.0</webjars-font-awesome.version>
 
-    <checkstyle.version>12.1.2</checkstyle.version>
-    <error-prone.version>2.42.0</error-prone.version>
+    <!-- Checkstyle needs to stay on v12 since v13 sets minimal jdk to 21 - https://checkstyle.org/releasenotes.html#Release_13.0.0 -->
+    <checkstyle.version>12.3.1</checkstyle.version>
     <jacoco.version>0.8.14</jacoco.version>
     <libsass.version>0.3.4</libsass.version>
     <lifecycle-mapping>1.0.0</lifecycle-mapping>
     <maven-checkstyle.version>3.6.0</maven-checkstyle.version>
     <nohttp-checkstyle.version>0.0.11</nohttp-checkstyle.version>
-    <nullaway.version>0.12.10</nullaway.version>
     <spring-format.version>0.0.47</spring-format.version>
   </properties>
 
@@ -50,10 +47,6 @@
           <groupId>org.yaml</groupId>
           <artifactId>snakeyaml</artifactId>
         </exclusion>
-        <exclusion>
-          <groupId>io.micrometer</groupId>
-          <artifactId>micrometer-observation</artifactId>
-        </exclusion>
       </exclusions>
     </dependency>
     <dependency>
@@ -63,6 +56,14 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-data-jpa</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-thymeleaf</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-validation</artifactId>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -76,74 +77,51 @@
           <groupId>org.springframework.boot</groupId>
           <artifactId>spring-boot-starter-jackson</artifactId>
         </exclusion>
-        <exclusion>
-          <groupId>io.micrometer</groupId>
-          <artifactId>micrometer-observation</artifactId>
-        </exclusion>
       </exclusions>
     </dependency>
+
     <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-validation</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-thymeleaf</artifactId>
+      <groupId>javax.cache</groupId>
+      <artifactId>cache-api</artifactId>
     </dependency>
 
-    <!-- Databases - Uses H2 by default -->
     <dependency>
       <groupId>com.h2database</groupId>
       <artifactId>h2</artifactId>
       <scope>runtime</scope>
     </dependency>
     <dependency>
-      <groupId>com.mysql</groupId>
-      <artifactId>mysql-connector-j</artifactId>
-      <scope>runtime</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.postgresql</groupId>
-      <artifactId>postgresql</artifactId>
-      <scope>runtime</scope>
-    </dependency>
-
-    <!-- Caching -->
-    <dependency>
-      <groupId>javax.cache</groupId>
-      <artifactId>cache-api</artifactId>
-    </dependency>
-    <dependency>
       <groupId>com.github.ben-manes.caffeine</groupId>
       <artifactId>caffeine</artifactId>
+      <scope>runtime</scope>
     </dependency>
-
-    <!-- Webjars -->
     <dependency>
       <groupId>org.webjars</groupId>
       <artifactId>webjars-locator-lite</artifactId>
       <version>${webjars-locator.version}</version>
+      <scope>runtime</scope>
     </dependency>
     <dependency>
       <groupId>org.webjars.npm</groupId>
       <artifactId>bootstrap</artifactId>
       <version>${webjars-bootstrap.version}</version>
+      <scope>runtime</scope>
     </dependency>
     <dependency>
       <groupId>org.webjars.npm</groupId>
       <artifactId>font-awesome</artifactId>
       <version>${webjars-font-awesome.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-devtools</artifactId>
-      <optional>true</optional>
+      <scope>runtime</scope>
     </dependency>
 
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-data-jpa-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-restclient</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -176,12 +154,6 @@
       <artifactId>testcontainers-mysql</artifactId>
       <scope>test</scope>
     </dependency>
-
-    <dependency>
-      <groupId>jakarta.xml.bind</groupId>
-      <artifactId>jakarta.xml.bind-api</artifactId>
-    </dependency>
-
   </dependencies>
 
   <build>
@@ -261,9 +233,15 @@
         <artifactId>spring-boot-maven-plugin</artifactId>
         <configuration>
           <image>
-            <builder>bellsoft/buildpacks.builder:musl</builder>
+            <builder>bellsoft/buildpacks.builder:musl-fixed</builder>
+            <pullPolicy>IF_NOT_PRESENT</pullPolicy>
             <env>
               <BP_SPRING_AOT_ENABLED>true</BP_SPRING_AOT_ENABLED>
+              <BP_JVM_AOTCACHE_ENABLED>true</BP_JVM_AOTCACHE_ENABLED>
+              <BP_JVM_JLINK_ENABLED>true</BP_JVM_JLINK_ENABLED>
+              <BP_JVM_JLINK_ARGS>--add-modules
+                java.base,java.compiler,java.desktop,java.instrument,java.net.http,java.prefs,java.rmi,java.scripting,java.security.jgss,java.sql.rowset,jdk.jfr,jdk.management,jdk.unsupported
+                --compress=zip-6 --no-header-files --no-man-pages --strip-debug</BP_JVM_JLINK_ARGS>
             </env>
           </image>
         </configuration>
@@ -290,6 +268,16 @@
             </goals>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <configuration>
+              <excludes>
+                  <exclude>**/MySqlIntegrationTests.java</exclude>
+                  <exclude>**/PostgresIntegrationTests.java</exclude>
+              </excludes>
+          </configuration>
       </plugin>
       <plugin>
         <groupId>org.jacoco</groupId>
@@ -321,38 +309,6 @@
           <failOnUnableToExtractRepoInfo>false</failOnUnableToExtractRepoInfo>
         </configuration>
       </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>default-compile</id>
-            <goals>
-              <goal>compile</goal>
-            </goals>
-            <phase>compile</phase>
-            <configuration>
-              <compilerArgs>
-                <arg>-XDcompilePolicy=simple</arg>
-                <arg>--should-stop=ifError=FLOW</arg>
-                <arg>-Xplugin:ErrorProne -XepDisableAllChecks -Xep:NullAway:ERROR -XepOpt:NullAway:OnlyNullMarked=true -XepOpt:NullAway:CustomContractAnnotations=org.springframework.lang.Contract -XepOpt:NullAway:JSpecifyMode=true</arg>
-              </compilerArgs>
-              <annotationProcessorPaths>
-                <path>
-                  <groupId>com.google.errorprone</groupId>
-                  <artifactId>error_prone_core</artifactId>
-                  <version>${error-prone.version}</version>
-                </path>
-                <path>
-                  <groupId>com.uber.nullaway</groupId>
-                  <artifactId>nullaway</artifactId>
-                  <version>${nullaway.version}</version>
-                </path>
-              </annotationProcessorPaths>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
       <!-- Spring Boot Actuator displays sbom-related information if a CycloneDX SBOM file is
       present at the classpath -->
       <plugin>
@@ -360,7 +316,6 @@
         <groupId>org.cyclonedx</groupId>
         <artifactId>cyclonedx-maven-plugin</artifactId>
       </plugin>
-
     </plugins>
   </build>
   <licenses>
@@ -399,7 +354,6 @@
               </execution>
             </executions>
           </plugin>
-
           <plugin>
             <groupId>com.gitlab.haynes</groupId>
             <artifactId>libsass-maven-plugin</artifactId>

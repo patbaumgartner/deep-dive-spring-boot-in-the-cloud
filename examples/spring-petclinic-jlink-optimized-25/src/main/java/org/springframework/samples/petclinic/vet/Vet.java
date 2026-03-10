@@ -30,8 +30,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
-import jakarta.xml.bind.annotation.XmlElement;
-import org.jspecify.annotations.Nullable;
 
 /**
  * Simple JavaBean domain object representing a veterinarian.
@@ -48,7 +46,7 @@ public class Vet extends Person {
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "vet_specialties", joinColumns = @JoinColumn(name = "vet_id"),
 			inverseJoinColumns = @JoinColumn(name = "specialty_id"))
-	private @Nullable Set<Specialty> specialties;
+	private Set<Specialty> specialties;
 
 	protected Set<Specialty> getSpecialtiesInternal() {
 		if (this.specialties == null) {
@@ -57,7 +55,6 @@ public class Vet extends Person {
 		return this.specialties;
 	}
 
-	@XmlElement
 	public List<Specialty> getSpecialties() {
 		return getSpecialtiesInternal().stream()
 			.sorted(Comparator.comparing(NamedEntity::getName))
