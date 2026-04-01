@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>4.0.3</version>
+    <version>4.0.5</version>
   </parent>
 
   <groupId>org.springframework.samples</groupId>
@@ -233,7 +233,7 @@
         <artifactId>spring-boot-maven-plugin</artifactId>
         <configuration>
           <image>
-            <builder>bellsoft/buildpacks.builder:musl-fixed</builder>
+            <builder>bellsoft/buildpacks.builder:musl</builder>
             <pullPolicy>IF_NOT_PRESENT</pullPolicy>
             <env>
               <BP_SPRING_AOT_ENABLED>true</BP_SPRING_AOT_ENABLED>
